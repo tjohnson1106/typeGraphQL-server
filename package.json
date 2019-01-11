@@ -1,0 +1,17 @@
+{
+  "name": "typegraphql-server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Thomas Johnson",
+  "license": "MIT",
+  "dependencies": {
+    "apollo-server-express": "^2.3.1",
+    "express": "^4.16.4",
+    "graphql": "^14.0.2",
+    "reflect-metadata": "^0.1.12",
+    "type-graphql": "^0.16.0"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.18"
+  }
+}
