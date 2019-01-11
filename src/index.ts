@@ -4,7 +4,7 @@ import * as express from "express";
 import { buildSchema } from "type-graphql";
 import { createConnection } from "typeorm";
 
-import { RegisterResolver } from "./modules/register/User";
+import { RegisterResolver } from "./modules/user/Register";
 
 const main = async () => {
   // db connect
