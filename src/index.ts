@@ -2,6 +2,7 @@ import "reflect-metadata";
 import { ApolloServer } from "apollo-server-express";
 import * as express from "express";
 import { buildSchema, Resolver, Query } from "type-graphql";
+import { createConnection } from "typeorm";
 
 // test resolver
 @Resolver()
@@ -15,6 +16,9 @@ class HelloResolver {
 }
 
 const main = async () => {
+  // db connect
+  await createConnection();
+
   const schema = await buildSchema({
     resolvers: [HelloResolver]
   });
