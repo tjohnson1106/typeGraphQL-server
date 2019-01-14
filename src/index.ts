@@ -9,6 +9,8 @@ import cors from "cors";
 
 import { RegisterResolver } from "./modules/user/Register";
 import { redis } from "./redis";
+import { LoginResolver } from "./modules/user/Login";
+import { MeResolver } from "./modules/Me";
 
 const SESSION_SECRET = "ajslkjalksjdfkl";
 
@@ -17,7 +19,7 @@ const main = async () => {
   await createConnection();
 
   const schema = await buildSchema({
-    resolvers: [RegisterResolver]
+    resolvers: [MeResolver, RegisterResolver, LoginResolver]
   });
 
   // create a req object after redis implementation
