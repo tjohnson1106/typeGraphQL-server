@@ -19,6 +19,7 @@ coverage
 
 # API keys and secrets
 .env
+session.js
 
 # Dependency directory
 node_modules
