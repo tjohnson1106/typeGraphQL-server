@@ -5,6 +5,8 @@ import { User } from "../../entity/User";
 import { RegisterInput } from "./register/RegisterInput";
 import { isAuthenticated } from "../middleware/isAuthenticated";
 import { logger } from "../middleware/logger";
+import { sendEmail } from "../utils/sendEmail";
+import { createConfirmationUrl } from "../utils/createConfirmationUrl";
 
 // User is resolved field
 @Resolver()
@@ -33,6 +35,8 @@ export class RegisterResolver {
       email,
       password: hashedPassword
     }).save();
+
+    await sendEmail(email, await createConfirmationUrl(user.id));
 
     return user;
   }

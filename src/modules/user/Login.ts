@@ -27,6 +27,12 @@ export class LoginResolver {
       return null;
     }
 
+    // check for confirmed email
+
+    if (!user.confirmed) {
+      return null;
+    }
+
     // return cookie with req object via ctx decorator
 
     ctx.req.session!.userId = user.id;
