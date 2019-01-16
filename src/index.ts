@@ -19,7 +19,11 @@ const main = async () => {
   await createConnection();
 
   const schema = await buildSchema({
-    resolvers: [MeResolver, RegisterResolver, LoginResolver]
+    resolvers: [MeResolver, RegisterResolver, LoginResolver],
+    // remember: roles can be added here
+    authChecker: ({ context: { req } }) => {
+      return !!req.session.userId;
+    }
   });
 
   // create a req object after redis implementation
