@@ -11,6 +11,7 @@ import { RegisterResolver } from "./modules/user/Register";
 import { redis } from "./redis";
 import { LoginResolver } from "./modules/user/Login";
 import { MeResolver } from "./modules/Me";
+import { ConfirmUserResolver } from "./modules/user/ConfirmUser";
 
 const SESSION_SECRET = "ajslkjalksjdfkl";
 
@@ -21,7 +22,12 @@ const main = async () => {
   await createConnection();
 
   const schema = await buildSchema({
-    resolvers: [MeResolver, RegisterResolver, LoginResolver],
+    resolvers: [
+      MeResolver,
+      RegisterResolver,
+      LoginResolver,
+      ConfirmUserResolver
+    ],
     // remember: roles can be added here
     authChecker: ({ context: { req } }) => {
       return !!req.session.userId;
