@@ -15,6 +15,8 @@ import { MeResolver } from "./modules/Me";
 const SESSION_SECRET = "ajslkjalksjdfkl";
 
 const main = async () => {
+  // test email
+
   // db connect
   await createConnection();
 
