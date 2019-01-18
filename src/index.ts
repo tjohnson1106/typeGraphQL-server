@@ -1,13 +1,14 @@
 import "reflect-metadata";
 import { ApolloServer } from "apollo-server-express";
 import express from "express";
-import { buildSchema, formatArgumentValidationError } from "type-graphql";
+import { formatArgumentValidationError } from "type-graphql";
 import { createConnection } from "typeorm";
 import session from "express-session";
 import connectRedis from "connect-redis";
 import cors from "cors";
 
 import { redis } from "./redis";
+import { createSchema } from "./global-utils/createSchema";
 
 const SESSION_SECRET = "ajslkjalksjdfkl";
 
@@ -16,14 +17,8 @@ const main = async () => {
 
   // db connect
   await createConnection();
-
-  const schema = await buildSchema({
-    resolvers: [__dirname + "/modules/**/*.ts"],
-    // remember: roles can be added here
-    authChecker: ({ context: { req } }) => {
-      return !!req.session.userId;
-    }
-  });
+  // global utils createSchema
+  const schema = await createSchema();
 
   // create a req object after redis implementation
 
