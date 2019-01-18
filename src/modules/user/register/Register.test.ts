@@ -1,7 +1,7 @@
-import { testConnection } from "../../../test-utils/testConnection";
 import { Connection } from "typeorm";
-import { graphql } from "graphql";
+
 import { gCall } from "../../../test-utils/gCall";
+import { testConnection } from "../../../test-utils/testConnection";
 
 let conn: Connection;
 
