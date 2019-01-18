@@ -8,7 +8,7 @@ import { User } from "../../../entity/User";
 let conn: Connection;
 
 beforeAll(async () => {
-  await testConnection();
+  conn = await testConnection();
 });
 
 afterAll(async () => {
@@ -35,8 +35,8 @@ mutation: Register($data: RegisterInput!) {
 describe("Register", () => {
   it("create user", async () => {
     const user = {
-      firstname: faker.name.firstName(),
-      lastname: faker.name.lastName(),
+      firstName: faker.name.firstName(),
+      lastName: faker.name.lastName(),
       email: faker.internet.email(),
       password: faker.internet.password()
     };
@@ -51,8 +51,8 @@ describe("Register", () => {
     expect(response).toMatchObject({
       data: {
         register: {
-          firstName: user.firstname,
-          lastName: user.lastname,
+          firstName: user.firstName,
+          lastName: user.lastName,
           email: user.email
         }
       }
@@ -63,6 +63,6 @@ describe("Register", () => {
     });
     expect(dbUser).toBeDefined();
     expect(dbUser!.confirmed).toBeFalsy();
-    expect(dbUser!.firstName).toBe(user.firstname);
+    expect(dbUser!.firstName).toBe(user.firstName);
   });
 });

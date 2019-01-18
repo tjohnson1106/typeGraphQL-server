@@ -10,7 +10,6 @@ import { RegisterResolver } from "../modules/user/Register";
 
 export const createSchema = () =>
   buildSchema({
-    // 10182019 reverted back to manual resolver imports from globbing
     resolvers: [
       ChangePasswordResolver,
       ConfirmUserResolver,

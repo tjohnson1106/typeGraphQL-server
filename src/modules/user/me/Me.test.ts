@@ -8,7 +8,7 @@ import { User } from "../../../entity/User";
 let conn: Connection;
 
 beforeAll(async () => {
-  await testConnection();
+  conn = await testConnection();
 });
 
 afterAll(async () => {
@@ -43,6 +43,29 @@ describe("Me", () => {
       source: meQuery,
       userId: user.id
     });
-    console.log(response);
+
+    expect(response).toMatchObject({
+      data: {
+        me: {
+          // id is sent back as string
+          id: `${user.id}`,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          email: user.email
+        }
+      }
+    });
+  });
+
+  it("return null", async () => {
+    const response = await gCall({
+      source: meQuery
+    });
+
+    expect(response).toMatchObject({
+      data: {
+        me: null
+      }
+    });
   });
 });
