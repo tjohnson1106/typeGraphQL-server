@@ -4,21 +4,26 @@ import {
   Arg,
   ClassType,
   InputType,
-  Field
+  Field,
+  UseMiddleware
 } from "type-graphql";
 import { RegisterInput } from "./register/RegisterInput";
 import { User } from "../../entity/User";
 import { Product } from "../../entity/Product";
+import { Middleware } from "type-graphql/interfaces/Middleware";
 
-function createBaseResolver<T extends ClassType, X extends ClassType>(
+function createResolver<T extends ClassType, X extends ClassType>(
   suffix: string,
   returnType: T,
   inputType: X,
-  entity: any
+  entity: any,
+  middleware?: Middleware<any>[]
 ) {
+  // may need "isAbstract: true, abstract class" when extends as opposed to return
   @Resolver()
-  abstract class BaseResolver {
+  class BaseResolver {
     @Mutation(() => returnType, { name: `create${suffix}` })
+    @UseMiddleware(...(middleware || []))
     async create(
       @Arg("data", () => inputType)
       data: any
@@ -36,25 +41,32 @@ class ProductInput {
   name: string;
 }
 
-const BaseCreateUser = createBaseResolver("User", User, RegisterInput, User);
+export const CreateUserResolver = createResolver(
+  "User",
+  User,
+  RegisterInput,
+  User
+);
 
-const BaseCreateProduct = createBaseResolver(
+export const CreateProductResolver = createResolver(
   "Product",
   Product,
   ProductInput,
   Product
 );
 
-@Resolver()
-export class CreateUserResolver extends BaseCreateUser {
-  //   @Mutation(() => User)
-  //   async createUser(
-  //     @Arg("data")
-  //     data: RegisterInput
-  //   ) {
-  //     return User.create(data).save();
-  //   }
-}
+// abstact extending
 
-@Resolver()
-export class CreateProductResolver extends BaseCreateProduct {}
+// @Resolver()
+// export class CreateUserResolver extends BaseCreateUser {
+//   //   @Mutation(() => User)
+//   //   async createUser(
+//   //     @Arg("data")
+//   //     data: RegisterInput
+//   //   ) {
+//   //     return User.create(data).save();
+//   //   }
+// }
+
+// @Resolver()
+// export class CreateProductResolver extends BaseCreateProduct {}
