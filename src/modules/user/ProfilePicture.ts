@@ -1,4 +1,4 @@
-import { Resolver, Arg, Mutation } from "type-graphql";
+import { Resolver, Mutation, Arg } from "type-graphql";
 import { GraphQLUpload } from "graphql-upload";
 import { createWriteStream } from "fs";
 
@@ -16,7 +16,11 @@ export class ProfilePictureResolver {
       createReadStream()
         .pipe(createWriteStream(__dirname + `/../../../images/${filename}`))
         .on("finish", () => resolve(true))
-        .on("error", () => resolve(false))
+        .on("error", () => reject(false))
     );
   }
 }
+
+// curl 'http://localhost:4000/graphql' -H 'Accept-Encoding: gzip, deflate, br' -H 'Content-Type: application/json' -H 'Accept: application/json' -H 'Connection: keep-alive' -H 'DNT: 1' -H 'Origin: http://localhost:4000' --data-binary '{"query":"mutation AddProfilePicture($picture: Upload!) {\n  addProfilePicture(picture: $picture)\n}\n"}' --compressed
+
+// '{"query":"mutation AddProfilePicture($picture: Upload!) {\n  addProfilePicture(picture: $picture)\n}"}';
