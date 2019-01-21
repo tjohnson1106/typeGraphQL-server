@@ -1,6 +1,14 @@
-import { Resolver, Mutation, Arg, ClassType } from "type-graphql";
+import {
+  Resolver,
+  Mutation,
+  Arg,
+  ClassType,
+  InputType,
+  Field
+} from "type-graphql";
 import { RegisterInput } from "./register/RegisterInput";
 import { User } from "../../entity/User";
+import { Product } from "../../entity/Product";
 
 function createBaseResolver<T extends ClassType, X extends ClassType>(
   suffix: string,
@@ -10,7 +18,7 @@ function createBaseResolver<T extends ClassType, X extends ClassType>(
 ) {
   @Resolver()
   abstract class BaseResolver {
-    @Mutation(() => returnType, { name: `${suffix}` })
+    @Mutation(() => returnType, { name: `create${suffix}` })
     async create(
       @Arg("data", () => inputType)
       data: any
@@ -22,7 +30,20 @@ function createBaseResolver<T extends ClassType, X extends ClassType>(
   return BaseResolver;
 }
 
+@InputType()
+class ProductInput {
+  @Field()
+  name: string;
+}
+
 const BaseCreateUser = createBaseResolver("User", User, RegisterInput, User);
+
+const BaseCreateProduct = createBaseResolver(
+  "Product",
+  Product,
+  ProductInput,
+  Product
+);
 
 @Resolver()
 export class CreateUserResolver extends BaseCreateUser {
@@ -34,3 +55,6 @@ export class CreateUserResolver extends BaseCreateUser {
   //     return User.create(data).save();
   //   }
 }
+
+@Resolver()
+export class CreateProductResolver extends BaseCreateProduct {}
