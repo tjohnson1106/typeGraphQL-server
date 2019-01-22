@@ -7,7 +7,10 @@ import { MyContext } from "src/types/MyContext";
 
 @Resolver()
 export class MeResolver {
-  @Query(() => User, { nullable: true })
+  @Query(() => User, {
+    nullable: true,
+    complexity: 5
+  })
   async me(@Ctx() ctx: MyContext): Promise<User | undefined> {
     // check for user id
 

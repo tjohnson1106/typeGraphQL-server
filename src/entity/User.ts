@@ -8,19 +8,20 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @Field()
+  @Field({ complexity: 6 })
   @Column()
   firstName: string;
 
-  @Field()
+  @Field({ complexity: 6 })
   @Column()
   lastName: string;
 
-  @Field()
+  @Field({ complexity: 12 })
   @Column("text", { unique: true })
   email: string;
 
-  @Field()
+  // complexity -> user/name query complexity limiting
+  @Field({ complexity: 6 })
   name(@Root() parent: User): string {
     return `${parent.firstName} ${parent.lastName}`;
   }
