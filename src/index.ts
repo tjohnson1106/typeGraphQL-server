@@ -32,7 +32,7 @@ const main = async () => {
     context: ({ req, res }: any) => ({ req, res }),
     validationRules: [
       queryComplexity({
-        maximumComplexity: 8,
+        maximumComplexity: 16,
         variables: {},
 
         onComplete: (complexity: number) => {
